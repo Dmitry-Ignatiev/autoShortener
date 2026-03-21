@@ -1,26 +1,19 @@
-const api="https://autoShortener.herokuapp.com/autoShortener";
-const inUrl=document.getElementById("url");
-const btn=document.getElementById("shorten");
-const result=document.getElementById("result");
+document.getElementById("shorten").addEventListener("click", async () => {
+  const url = document.getElementById("url").value;
+  if (!url) return;
 
-btn.addEventListener("click", async () => {
-  const url = inUrl.value.trim();
-  if (!url) return result.textContent = "Enter URL";
   try {
-    const r = await fetch(api, {
+    const res = await fetch("https://autoshortener-production.up.railway.app/autoShortener", {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({url})
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url })
     });
-    if(!r.ok) throw new Error(`${r.status} ${r.statusText}`);
-    const data = await r.json();
-    inUrl.value = data.short;
-    inUrl.select();
-    result.textContent = "✅ Copied to clipboard!";
-    await navigator.clipboard.writeText(data.short);
-    setTimeout(() => { result.textContent = ""; }, 2000);
-  } catch(e) {
-    result.textContent = "Error: " + e.message;
+    const data = await res.json();
+    alert("Short URL: " + data.short);
+
+    // Optional: copy to clipboard
+    navigator.clipboard.writeText(data.short);
+  } catch (err) {
+    alert("Error: " + err);
   }
 });
-
