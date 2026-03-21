@@ -1,4 +1,3 @@
-<!-- popup.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,42 +9,77 @@
       font-family: system-ui, -apple-system, sans-serif;
       background: #f0f2f5;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 150px;
+      padding: 16px;
+      width: 300px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
     }
 
     .dialog {
+      margin-top: 12px;
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
       background: white;
-      padding: 16px 24px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
       text-align: center;
       font-weight: bold;
-      font-size: 1.2em;
+      word-break: break-all;
     }
   </style>
 </head>
 <body>
-  <div class="dialog" id="responseBox">Loading...</div>
+  <input type="text" id="url" placeholder="Enter URL to shorten" />
+  <button id="shorten">Shorten</button>
+  <div class="dialog" id="responseBox">Your shortened URL will appear here</div>
 
   <script>
-    async function fetchShortUrl() {
-      try {
-        // Example: fetch from your backend
-        const res = await fetch('https://your-backend-url/shorten', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: 'https://example.com' })
-        });
-        const data = await res.text(); // or res.json() if JSON
-        document.getElementById('responseBox').innerText = data; // <-- shows 0d3c01
-      } catch (err) {
-        document.getElementById('responseBox').innerText = 'Error';
-      }
-    }
+    const btn = document.getElementById("shorten");
+    const inUrl = document.getElementById("url");
+    const responseBox = document.getElementById("responseBox");
 
-    fetchShortUrl();
+    btn.addEventListener("click", async () => {
+      const url = inUrl.value.trim();
+      if (!url) {
+        responseBox.innerText = "Enter URL";
+        return;
+      }
+
+      try {
+        const res = await fetch("https://autoshortener-production.up.railway.app/autoShortener", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url })
+        });
+
+        const data = await res.json();
+        const shortUrl = `https://autoshortener-production.up.railway.app/${data.short}`;
+
+        responseBox.innerText = shortUrl;               // show in dialog box
+        await navigator.clipboard.writeText(shortUrl);  // copy automatically
+      } catch (err) {
+        responseBox.innerText = "Error: " + err;
+      }
+    });
   </script>
 </body>
 </html>

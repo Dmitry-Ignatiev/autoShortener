@@ -1,13 +1,13 @@
 const btn = document.getElementById("shorten");
 const inUrl = document.getElementById("url");
-const result = document.getElementById("result");
+const responseBox = document.getElementById("responseBox"); // <-- dialog box
 
 btn.addEventListener("click", async () => {
-const url = inUrl.value.trim();
-if (!url) {
-  result.textContent = "Enter URL";
-  return;
-}
+  const url = inUrl.value.trim();
+  if (!url) {
+    responseBox.innerText = "Enter URL";  // <-- show in dialog
+    return;
+  }
 
   try {
     const res = await fetch("https://autoshortener-production.up.railway.app/autoShortener", {
@@ -17,12 +17,12 @@ if (!url) {
     });
 
     const data = await res.json();
-    const shortUrl = `autoshortener-production.up.railway.app/${data.short}`;
+    const shortUrl = `https://autoshortener-production.up.railway.app/${data.short}`;
 
-    result.textContent = shortUrl;                // show in popup
-    await navigator.clipboard.writeText(shortUrl); // automatically copy
+    responseBox.innerText = shortUrl;              // <-- show in dialog
+    await navigator.clipboard.writeText(shortUrl); // copy automatically
          
   } catch (err) {
-    result.textContent = "Error: " + err;
+    responseBox.innerText = "Error: " + err;       // <-- show in dialog
   }
 });
