@@ -1,6 +1,10 @@
-document.getElementById("shorten").addEventListener("click", async () => {
-  const url = document.getElementById("url").value;
-  if (!url) return;
+const btn = document.getElementById("shorten");
+const inUrl = document.getElementById("url");
+const result = document.getElementById("result");
+
+btn.addEventListener("click", async () => {
+  const url = inUrl.value.trim();
+  if (!url) return result.textContent = "Enter URL";
 
   try {
     const res = await fetch("https://autoshortener-production.up.railway.app/autoShortener", {
@@ -8,12 +12,14 @@ document.getElementById("shorten").addEventListener("click", async () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url })
     });
-    const data = await res.json();
-    alert("Short URL: " + data.short);
 
-    // Optional: copy to clipboard
-    navigator.clipboard.writeText(data.short);
+    const data = await res.json();
+    const shortUrl = `autoshortener-production.up.railway.app/${data.short}`;
+
+    result.textContent = shortUrl;                // show in popup
+    await navigator.clipboard.writeText(shortUrl); // automatically copy
+         
   } catch (err) {
-    alert("Error: " + err);
+    result.textContent = "Error: " + err;
   }
 });

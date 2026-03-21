@@ -18,9 +18,9 @@ def shorten():
     long_url = request.json.get("url")
     key = generate_key(long_url)
     url_map[key] = long_url
-    save_urls()  # persist to urls.json
-    host = request.host.split(":")[0]  # remove port if any
-    return jsonify({"short": f"{host}/{key}"})  # no http/https
+    save_urls()
+    return jsonify({"short": key})  # only return key
+
 @app.route("/")
 def home():
     return """
