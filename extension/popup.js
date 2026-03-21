@@ -3,8 +3,11 @@ const inUrl = document.getElementById("url");
 const result = document.getElementById("result");
 
 btn.addEventListener("click", async () => {
-  const url = inUrl.value.trim();
-  if (!url) return result.textContent = "Enter URL";
+const url = inUrl.value.trim();
+if (!url) {
+  result.textContent = "Enter URL";
+  return;
+}
 
   try {
     const res = await fetch("https://autoshortener-production.up.railway.app/autoShortener", {
