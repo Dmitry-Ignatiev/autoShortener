@@ -20,44 +20,29 @@ def shorten():
     url_map[key] = long_url
     save_urls()  # persist to urls.json
     return jsonify({"short": f"{request.host_url}{key}"})
+
 @app.route("/")
 def home():
     return """
     <!DOCTYPE html>
     <html>
-    <head><meta charset="UTF-8"><title>URL Shortener</title></head>
-    <body>
-      <h2>URL Shortener</h2>
-      <input type="text" id="url" placeholder="Enter URL..." size="50">
-      <button id="shorten">Shorten</button>
-      <pre id="result"></pre>
-      <script>
-        const input = document.getElementById("url");
-        const btn = document.getElementById("shorten");
-        const output = document.getElementById("result");
-
-        btn.addEventListener("click", async () => {
-          const url = input.value;
-          if (!url) return;
-          output.textContent = "Processing...";
-
-          try {
-            const res = await fetch("/autoShortener", {
+      <body>
+        <script>
+          const url = prompt("Enter URL to shorten:");
+          if (url) {
+            fetch("/autoShortener", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ url })
-            });
-            const data = await res.json();
-            output.textContent = JSON.stringify(data, null, 2);
-          } catch (err) {
-            output.textContent = "Error: " + err.message;
+            })
+            .then(res => res.json())
+            .then(data => alert("Short URL: " + data.short))
+            .catch(err => alert("Error: " + err));
           }
-        });
-      </script>
-    </body>
+        </script>
+      </body>
     </html>
     """
-
 @app.route("/<key>")
 def redirect_short(key):
     long_url = url_map.get(key)
