@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <input id="url" placeholder="https://example.com" style="width: 280px;" />
-    <button id="shorten">Shorten</button>
-    <div id="result"></div>
-    <script src="popup.js"></script>
+    <script>
+      const url = prompt("Enter URL to shorten:");
+      if (url) {
+        fetch("/autoShortener", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url })
+        })
+        .then(res => res.json())
+        .then(data => alert("Short URL: " + data.short))
+        .catch(err => alert("Error: " + err));
+      }
+    </script>
   </body>
 </html>
