@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "AutoShortener",
+  "description": "Shorten URLs via local Flask API",
+  "version": "1.0",
+  "permissions": ["activeTab", "clipboardWrite"],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
