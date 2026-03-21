@@ -36,7 +36,7 @@ def home():
               body: JSON.stringify({ url })
             })
             .then(res => res.json())
-            .then(data => alert("Short URL: " + data.short))
+            .then(data => alert(data.short))
             .catch(err => alert("Error: " + err));
           }
         </script>
