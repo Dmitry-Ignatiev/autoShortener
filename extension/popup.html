@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8">
+    <title>AutoShortener</title>
+    <style>
+      body { font-family: Arial; padding: 10px; width: 250px; }
+      input { width: 100%; margin-bottom: 8px; }
+      button { width: 100%; }
+    </style>
+  </head>
   <body>
-    <script>
-      const url = prompt("Enter URL to shorten:");
-      if (url) {
-        fetch("/autoShortener", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url })
-        })
-        .then(res => res.json())
-        .then(data => alert("Short URL: " + data.short))
-        .catch(err => alert("Error: " + err));
-      }
-    </script>
+    <input id="url" placeholder="Enter URL..." />
+    <button id="shorten">Shorten</button>
+    <div id="result"></div>
+    <script src="popup.js"></script>
   </body>
 </html>
