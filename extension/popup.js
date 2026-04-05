@@ -1,3 +1,4 @@
+
 const btn = document.getElementById("shorten");
 const inUrl = document.getElementById("url");
 const responseBox = document.getElementById("responseBox"); // <-- dialog box

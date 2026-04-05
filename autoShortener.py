@@ -3,10 +3,10 @@ import hashlib
 import os
 from flask_cors import CORS
 from storage import url_map, save_urls
+
 app = Flask(__name__)
 CORS(app)
 
-# In-memory store
 url_db = {}
 
 def generate_key(url):
@@ -16,10 +16,12 @@ def generate_key(url):
 @app.route("/autoShortener", methods=["POST"])
 def shorten():
     long_url = request.json.get("url")
+    if not long_url:                                          # ← guard added
+        return jsonify({"error": "url required"}), 400
     key = generate_key(long_url)
     url_map[key] = long_url
     save_urls()
-    return jsonify({"short": key})  # only return key
+    return jsonify({"short": key})
 
 @app.route("/")
 def home():
@@ -43,6 +45,7 @@ def home():
       </body>
     </html>
     """
+
 @app.route("/<key>")
 def redirect_short(key):
     long_url = url_map.get(key)
