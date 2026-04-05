@@ -52,34 +52,6 @@
   <button id="shorten">Shorten and Copy to Clipboard</button>
   <div class="dialog" id="responseBox">Your shortened URL will appear here</div>
 
-  <script>
-    const btn = document.getElementById("shorten");
-    const inUrl = document.getElementById("url");
-    const responseBox = document.getElementById("responseBox");
-
-    btn.addEventListener("click", async () => {
-      const url = inUrl.value.trim();
-      if (!url) {
-        responseBox.innerText = "Enter URL";
-        return;
-      }
-
-      try {
-        const res = await fetch("https://autoshortener-production.up.railway.app/autoShortener", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url })
-        });
-
-        const data = await res.json();
-        const shortUrl = `https://autoshortener-production.up.railway.app/${data.short}`;
-
-        responseBox.innerText = shortUrl;               // show in dialog box
-        await navigator.clipboard.writeText(shortUrl);  // copy automatically
-      } catch (err) {
-        responseBox.innerText = "Error: " + err;
-      }
-    });
-  </script>
+<script src="popup.js"></script>
 </body>
 </html>
