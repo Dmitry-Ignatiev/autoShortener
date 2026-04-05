@@ -1,0 +1,23 @@
+__pycache__/
+urls.json
+.vscode/
+# Virtual environment
+.venv/
+
+# URL storage (runtime data, not source code)
+urls.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# VS Code
+.vscode/
+
+# Environment variables
+.env
+
+# OS
+.DS_Store
+Thumbs.db
