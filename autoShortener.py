@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 url_db = {}
-
+BASE_URL = os.getenv("BASE_URL", "http://localhost:5000")
 def generate_key(url):
     return hashlib.md5(url.encode()).hexdigest()[:6]
 
