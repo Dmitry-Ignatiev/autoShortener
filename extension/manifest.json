@@ -4,7 +4,7 @@
   "description": "Shorten URLs via Railway Flask API",
   "version": "1.0",
   "permissions": ["activeTab", "clipboardWrite"],
-  "host_permissions":[   "https://autoshortener-production.up.railway.app/*"],
+  "host_permissions":[   " https://autoshortener.onrender.com/*"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon.png"
